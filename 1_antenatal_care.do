@@ -4,17 +4,33 @@
 
 
 	*c_anc: 4+ antenatal care visits of births in last 2 years	
-	gen c_anc = (inrange(m14,4,97)) if m14<=97                                                //Last pregnancies in last 2 years of women currently aged 15-49	 
-	replace c_anc=0 if m2n ==1 & m14>=98 
-	
+	capture confirm variable m14
+	if _rc == 0 {
+		gen c_anc = (inrange(m14,4,97)) if m14<=97                                                //Last pregnancies in last 2 years of women currently aged 15-49	 
+		replace c_anc=0 if m2n ==1 & m14>=98 
+	}
+	if _rc != 0 {
+		gen c_anc = .                //Children under 5 in country where malaria is endemic (only in countries with endemic)
+	}		
+		
 	*c_anc_any: any antenatal care visits of births in last 2 years
-	gen c_anc_any = (inrange(m14,1,97)) if m14<=97
-	
+	capture confirm variable m14
+	if _rc == 0 {
+		gen c_anc_any = (inrange(m14,1,97)) if m14<=97                //Children under 5 in country where malaria is endemic (only in countries with endemic)
+	}
+	if _rc != 0 {
+		gen c_anc_any = .                //Children under 5 in country where malaria is endemic (only in countries with endemic)
+	}	
 	*c_anc_ear: First antenatal care visit in first trimester of pregnancy of births in last 2 years
-	gen c_anc_ear = 0 if m2n!=.   // filter question, m13 based on Women who had seen someone for antenatal care for their last born child
-	replace c_anc_ear = 1 if inrange(m13,0,3)
-	replace c_anc_ear = . if inlist(m13,98,.) & m2n !=1 
-	
+	capture confirm variable m13
+	if _rc == 0 {
+		gen c_anc_ear = 0 if m2n!=.   // filter question, m13 based on Women who had seen someone for antenatal care for their last born child
+		replace c_anc_ear = 1 if inrange(m13,0,3)
+		replace c_anc_ear = . if inlist(m13,98,.) & m2n !=1 
+	}
+	if _rc != 0 {
+		gen c_anc_ear = .                //Children under 5 in country where malaria is endemic (only in countries with endemic)	
+	}
 	*c_anc_ear_q: First antenatal care visit in first trimester of pregnancy among ANC users of births in last 2 years
 	gen c_anc_ear_q = c_anc_ear if c_anc_any==1
 	

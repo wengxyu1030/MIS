@@ -22,7 +22,7 @@ macro drop _all
 global root "/Users/xianzhang/Dropbox/DHS"
 
 * Define path for data sources
-global SOURCE "/Volumes/alan/DHS/RAW DATA/Recode VII"
+global SOURCE "/Volumes/alan/DHS/RAW DATA/Recode VI"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
@@ -31,21 +31,28 @@ global OUT "${root}/STATA/DATA/SC/FINAL"
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-global DO "${root}/STATA/DO/SC/DHS/Recode VII DHS"
+global DO "${root}/STATA/DO/SC/DHS/MIS-recode-template"
 
 * Define the country names (in globals) in by Recode
     
 do "${DO}/0_GLOBAL.do"
 	
 // global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
-foreach name in Uganda2014 {	
+foreach name in Angola2011 {	
 clear
 tempfile birth ind men hm hiv hh iso
 
 ******************************
 *****domains using birth data*
 ******************************
-use "${SOURCE}/DHS-`name'/DHS-`name'child.dta", clear	
+
+capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"	
+if _rc == 0 {
+use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
+}	
+if _rc != 0 {
+use "${SOURCE}/DHS-`name'/DHS-`name'child.dta", clear
+}	
     gen hm_age_mon = (v008 - b3)           //hm_age_mon Age in months (children only)
     gen name = "`name'"
 	
