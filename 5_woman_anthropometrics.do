@@ -32,7 +32,7 @@ rename v213 wpregnant
 */
 *w_obese_1549	15-49y woman's BMI>=30 (1/0) 
 	gen w_obese_1549=.
-	gen v437=.
+	gen wweight = .
 /*	
 	gen w_obese_1549=1 if w_bmi_1549>=30
 	replace w_obese_1549=0 if w_bmi_1549<30

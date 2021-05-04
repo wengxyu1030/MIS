@@ -22,7 +22,7 @@ macro drop _all
 global root "/Users/xianzhang/Dropbox/DHS"
 
 * Define path for data sources
-global SOURCE "/Volumes/alan/DHS/RAW DATA/Recode VI"
+global SOURCE "/Volumes/alan/DHS/RAW DATA/MIS"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
@@ -37,22 +37,38 @@ global DO "${root}/STATA/DO/SC/DHS/MIS-recode-template"
     
 do "${DO}/0_GLOBAL.do"
 	
-// global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
-foreach name in Angola2011 {	
+foreach name in BurkinaFaso2017 {	
 clear
-tempfile birth ind men hm hiv hh iso
+tempfile birth ind men hm hiv hh iso birthind
 
 ******************************
 *****domains using birth data*
 ******************************
+use "${SOURCE}/DHS-`name'/DHS-`name'ind.dta", clear
+	foreach k in 1 2 3 4 5 6 7 8 9  {
+		foreach var of varlist *_0`k' {
+			local a =  subinstr("`var'","_0`k'","_`k'",1)
+			ren `var' `a'
+		}
+	}
 
-capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"	
-if _rc == 0 {
-use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
-}	
-if _rc != 0 {
-use "${SOURCE}/DHS-`name'/DHS-`name'child.dta", clear
-}	
+	global namenew
+	foreach var of varlist *_1{
+		local a = subinstr("`var'","_1","_@",.)
+		global namenew $namenew `a'
+	}
+
+	sreshape long $namenew ,  i(caseid) j(bid)
+
+	foreach var of varlist *_{
+		local a = subinstr("`var'","_","",.)
+		ren `var' `a'
+	}
+	
+	drop if b8==. & b5!=0
+	
+save `birthind',replace
+
     gen hm_age_mon = (v008 - b3)           //hm_age_mon Age in months (children only)
     gen name = "`name'"
 	
@@ -144,7 +160,7 @@ save `hm',replace
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
     rename (hv001 hv002 hvidx) (v001 v002 v003)
 
-    merge 1:m v001 v002 v003 using "${SOURCE}/DHS-`name'/DHS-`name'child.dta"
+    merge 1:m v001 v002 v003 using `birthind'
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
 
@@ -195,7 +211,7 @@ use `hm',clear
 	drop _merge
 
 *** Quality Control: Validate with DHS official data
-    gen surveyid = iso2c+year+"DHS"
+    gen surveyid = iso2c+year+"MIS"
 
 	preserve 
 	do "${DO}/Quality_control"

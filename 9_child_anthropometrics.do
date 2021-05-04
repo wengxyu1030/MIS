@@ -18,7 +18,7 @@
 
 	*c_underweight: Child under 5 underweight
 		gen c_underweight=1 if hc71<-2
-		replace c_underweight=0 if hc71>=-2 & hc71!=.		replace c_anc=0 if m2n ==1 & m14>=98 
+		replace c_underweight=0 if hc71>=-2 & hc71!=.		
 		}
 	if _rc != 0 {
 		foreach k in hc70 hc71 c_stunted c_underweight{
