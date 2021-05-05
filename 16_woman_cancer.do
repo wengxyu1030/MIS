@@ -9,6 +9,16 @@ gen w_papsmear = .
 *w_mammogram	Women received a mammogram (1/0)
 gen w_mammogram = .
 
+if inlist(name,"Jordan2017") {
+	replace w_papsmear=0 if s1110_f!=.
+	replace w_papsmear=1 if s1110_g==1
+	replace w_papsmear=. if s1110_f==8 | s1110_g==8
+	replace w_papsmear=. if v012 < 20
+	
+	replace w_mammogram = (s1110_c == 1) 
+	replace w_mammogram=. if s1110_c == . | s1110_c == 8
+	replace w_mammogram=. if v012 < 20	
+}
 
 if inlist(name,"SouthAfrica2016") {
 	tempfile tpf1

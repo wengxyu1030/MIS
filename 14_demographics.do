@@ -22,7 +22,6 @@
 *hm_stay Stayed in the HH the night before the survey (1/0)
     gen hm_stay = hv103 if hv103!=9 //vary by survey
 
-	
 *hm_dob	date of birth (cmc)
     gen hm_dob = hc32  //
 	

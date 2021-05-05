@@ -11,7 +11,17 @@ rename v213 wpregnant
 	gen w_bmi_1549 =. 
 	gen wunderweight=.
 	gen wnormal_weight=.
-/*	gen w_bmi_1549=v437/(v438)^2
+/*	
+	foreach var of varlist v437 v438 {
+	replace `var'=. if `var'==9994
+	}
+	replace v437=v437/10
+	replace v438=v438/1000
+	
+	replace v437=. if v437>250
+	replace v438=. if v438>2.50
+		
+	gen w_bmi_1549=v437/(v438)^2
 	replace w_bmi_1549=. if (dateinterview-wdoblastchild)<=3 | wpregnant==1
     replace w_bmi_1549 = . if w_bmi_1549<9 | w_bmi_1549>70
 	

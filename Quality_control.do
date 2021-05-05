@@ -6,9 +6,6 @@ for example the hiv data in DHS and adult indicators in HEFPI,
 could be adjusted later */
 /* Note: run for DHS.dta and replace, to allign with HEFPI 
 use "${SOURCE}/external/DHS.dta", clear
-replace surveyid = "MM2015DHS" if surveyid == "MM2016DHS"
-replace surveyid = "AM2015DHS" if surveyid == "AM2016DHS" 
-replace surveyid = "BI2016DHS" if surveyid == "BU2016DHS"
 */
 
 tempfile dhs hefpi
