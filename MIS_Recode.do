@@ -160,7 +160,7 @@ save `hm',replace
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
     rename (hv001 hv002 hvidx) (v001 v002 v003)
 
-    merge 1:m v001 v002 v003 using `birthind'
+    merge 1:m v001 v002 v003 using `birth'
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
 
