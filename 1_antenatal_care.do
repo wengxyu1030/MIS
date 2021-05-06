@@ -151,15 +151,6 @@ Attach Recode VII 1_antenatal_care.do as reference
 	replace `var' = . if !inlist(`var',0,1)
 
 	 }
-	if inlist(name, "Senegal2017") {
-		replace m2h = .
-	}
-	if inlist(name, "Benin2017") {
-		replace m2h = . // exclude "untrained birth attendant"
-	}
-	if inlist(name,"Nepal2016") {
-		replace m2d = .  // Nepal doesn't include health assistant in the report.
-	}	
 	/* do consider as skilled if contain words in the first group but don't contain any words in the second group */
 
     egen anc_skill = rowtotal(m2a-m2m),mi
@@ -238,11 +229,6 @@ Attach Recode VII 1_antenatal_care.do as reference
 	    label var rh_anc_neotet "Protected against neonatal tetanus"
 		
 	gen c_anc_tet = (rh_anc_neotet == 1) if  !mi(rh_anc_neotet)
-	
-	if inlist(name,"Bangladesh2017"){
-		replace c_anc_tet=.
-		replace rh_anc_neotet =.
-	}
 	
 	*c_anc_tet_q: pregnant women vaccinated against tetanus among ANC users for last birth in last 2 years
 	gen c_anc_tet_q = (rh_anc_neotet == 1) if c_anc_any == 1
