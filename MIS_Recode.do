@@ -37,7 +37,7 @@ global DO "${root}/STATA/DO/SC/DHS/MIS-recode-template"
     
 do "${DO}/0_GLOBAL.do"
 	
-foreach name in BurkinaFaso2017 {	
+foreach name in $MIScountries {	
 clear
 tempfile birth ind men hm hiv hh iso birthind
 
