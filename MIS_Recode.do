@@ -44,7 +44,7 @@ tempfile birth ind men hm hiv hh iso birthind
 ******************************
 *****domains using birth data*
 ******************************
-use "${SOURCE}/DHS-`name'/DHS-`name'ind.dta", clear
+use "${SOURCE}/MIS-`name'/MIS-`name'ind.dta", clear
 	foreach k in 1 2 3 4 5 6 7 8 9  {
 		foreach var of varlist *_0`k' {
 			local a =  subinstr("`var'","_0`k'","_`k'",1)
@@ -108,7 +108,7 @@ save `birth'
 ******************************
 *****domains using ind data***
 ******************************
-use "${SOURCE}/DHS-`name'/DHS-`name'ind.dta", clear	
+use "${SOURCE}/MIS-`name'/MIS-`name'ind.dta", clear	
 gen name = "`name'"
 
     do "${DO}/4_sexual_health"
@@ -127,7 +127,7 @@ save `ind'
 ************************************
 *****domains using hm level data****
 ************************************
-use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
+use "${SOURCE}/MIS-`name'/MIS-`name'hm.dta", clear
 gen name = "`name'"
 
     do "${DO}/9_child_anthropometrics"  
@@ -138,9 +138,9 @@ keep hv001 hv002 hvidx hc70 hc71 ///
 c_* ant_* a_* hm_* ln
 save `hm'
 
-capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta"
+capture confirm file "${SOURCE}/MIS-`name'/MIS-`name'hiv.dta"
  if _rc==0 {
-    use "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta", clear
+    use "${SOURCE}/MIS-`name'/MIS-`name'hiv.dta", clear
     do "${DO}/12_hiv"
  }
  if _rc!= 0 {
@@ -157,10 +157,10 @@ save `hm',replace
 ************************************
 *****domains using hh level data****
 ************************************
-use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
+use "${SOURCE}/MIS-`name'/MIS-`name'hm.dta", clear
     rename (hv001 hv002 hvidx) (v001 v002 v003)
 
-    merge 1:m v001 v002 v003 using `birth'
+    merge 1:m v001 v002 v003 using "${SOURCE}/MIS-`name'/MIS-`name'birth.dta"
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
 
@@ -199,7 +199,7 @@ use `hm',clear
     tab hh_urban,mi  //check whether all hh member + dead child + child lives outside hh assinged hh info
 
 ***survey level data
-    gen survey = "DHS-`name'"
+    gen survey = "MIS-`name'"
 	gen year = real(substr("`name'",-4,.))
 	tostring(year),replace
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
@@ -269,7 +269,7 @@ use `hm',clear
     drop bidx surveyid
     do "${DO}/Label_var"
 	
-save "${OUT}/DHS-`name'.dta", replace  
+save "${OUT}/MIS-`name'.dta", replace  
 }
 
 
