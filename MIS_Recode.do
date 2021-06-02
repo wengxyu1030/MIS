@@ -158,10 +158,8 @@ save `hm',replace
 *****domains using hh level data****
 ************************************
 use "${SOURCE}/MIS-`name'/MIS-`name'hm.dta", clear
-    rename (hv001 hv002 hvidx) (v001 v002 v003)
 
-    merge 1:m v001 v002 v003 using "${SOURCE}/MIS-`name'/MIS-`name'birth.dta"
-    rename (v001 v002 v003) (hv001 hv002 hvidx) 
+    merge 1:m hv001 hv002 hvidx using `birth'
     drop _merge
 
     do "${DO}/15_household"
