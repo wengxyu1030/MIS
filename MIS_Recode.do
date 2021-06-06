@@ -158,6 +158,7 @@ save `hm',replace
 *****domains using hh level data****
 ************************************
 use "${SOURCE}/MIS-`name'/MIS-`name'hm.dta", clear
+
     merge 1:m hv001 hv002 hvidx using `birth'
     drop _merge
 
