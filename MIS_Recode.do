@@ -205,6 +205,7 @@ use `hm',clear
 		gen year = real(substr("`name'",-7,4))
 		tostring(year),replace
 	}	
+  
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
 	replace country = "South Africa" if country == "SouthAfrica"
 	replace country = "Timor-Leste" if country == "Timor"
