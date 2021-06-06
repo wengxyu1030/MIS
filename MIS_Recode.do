@@ -203,6 +203,7 @@ use `hm',clear
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
 	replace country = "South Africa" if country == "SouthAfrica"
 	replace country = "Timor-Leste" if country == "Timor"
+    replace country = "BurkinaFaso" if country == "Burkina Faso"
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
