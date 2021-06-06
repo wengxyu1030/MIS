@@ -160,7 +160,6 @@ save `hm',replace
 use "${SOURCE}/MIS-`name'/MIS-`name'hm.dta", clear
 
     merge 1:m hv001 hv002 hvidx using `birth'
- 
     drop _merge
 
     do "${DO}/15_household"
@@ -198,7 +197,8 @@ use `hm',clear
     tab hh_urban,mi  //check whether all hh member + dead child + child lives outside hh assinged hh info
 
 ***survey level data
-    gen survey = "DHS-`name'"
+
+    gen survey = "MIS-`name'"
 		if ~inlist("`name'", "Angola2006-07") {
 		gen year = real(substr("`name'",-4,.))
 		tostring(year),replace
@@ -207,9 +207,11 @@ use `hm',clear
 		gen year = real(substr("`name'",-7,4))
 		tostring(year),replace
 	}	
+
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
 	replace country = "South Africa" if country == "SouthAfrica"
 	replace country = "Timor-Leste" if country == "Timor"
+    replace country = "BurkinaFaso" if country == "Burkina Faso"
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
