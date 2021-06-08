@@ -197,9 +197,17 @@ use `hm',clear
     tab hh_urban,mi  //check whether all hh member + dead child + child lives outside hh assinged hh info
 
 ***survey level data
+
     gen survey = "MIS-`name'"
-	gen year = real(substr("`name'",-4,.))
-	tostring(year),replace
+		if ~inlist("`name'", "Angola2006-07") {
+		gen year = real(substr("`name'",-4,.))
+		tostring(year),replace
+	}
+	if inlist("`name'", "Angola2006-07") {
+		gen year = real(substr("`name'",-7,4))
+		tostring(year),replace
+	}	
+
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
 	replace country = "South Africa" if country == "SouthAfrica"
 	replace country = "Timor-Leste" if country == "Timor"
