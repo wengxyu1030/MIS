@@ -10,8 +10,6 @@ destring year, replace
 gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 
 
- *sba_skill (not nailed down yet, need check the result and update key words accordingly.)
-	gen sba_skill =.
 
 	*c_hospdel: child born in hospital of births in last 2 years
 	gen c_hospdel =.
@@ -26,7 +24,24 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	gen c_skin2skin = .
 	
 	*c_sba: Skilled birth attendance of births in last 2 years: go to report to verify how "skilled is defined"
-	gen c_sba = . 
+	if inlist(name,"Angola2006-07"){
+		foreach var of varlist m3a-m3n {
+	    local lab: variable label `var' 
+        replace `var' = . if ///
+	    !regexm("`lab'","trained") & ///
+	    (!regexm("`lab'","doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|ma/sacmo|obgyn") ///
+	    |regexm("`lab'","na^|-na|traditional birth attendant|untrained|unqualified|empirical midwife|trad.")) | regexm("`lab'","untrained")
+	    replace `var' = . if !inlist(`var',0,1)
+	 }
+	 egen sba_skill = rowtotal(m3a-m3n),mi
+	 gen c_sba = . 
+	 replace c_sba = 1 if sba_skill>=1 
+	 replace c_sba = 0 if sba_skill==0 
+	}
+	if ~inlist(name, "Angola2006-07"){
+		gen sba_skill = .
+		gen c_sba = .
+	}
 
 	*c_sba_q: child placed on mother's bare skin and breastfeeding initiated immediately after birth among children with sba of births in last 2 years
 	gen c_sba_q = .
