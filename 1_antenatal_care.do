@@ -83,7 +83,13 @@
 	gen c_anc_ur_q = .
 	
 	*c_anc_ir: iron supplements taken during pregnancy of births in last 2 years	
-	gen c_anc_ir = .
+	if inlist(name,"Burundi2012"){
+		gen c_anc_ir = ( inlist(m45,1,2) )
+	    replace c_anc_ir = . if inlist(m45,8,9,.) 
+	}
+	if ~inlist(name, "Burundi2012"){
+		gen c_anc_ir = .
+	}
 	
 	*c_anc_ir_q: iron supplements taken during pregnancy among ANC users of births in last 2 years
 	gen c_anc_ir_q = .
