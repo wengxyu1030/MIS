@@ -158,7 +158,6 @@ save `hm',replace
 *****domains using hh level data****
 ************************************
 use "${SOURCE}/MIS-`name'/MIS-`name'hm.dta", clear
-
     merge 1:m hv001 hv002 hvidx using `birth'
     drop _merge
 
@@ -199,18 +198,19 @@ use `hm',clear
 ***survey level data
 
     gen survey = "MIS-`name'"
-		if ~inlist("`name'", "Angola2006-07") {
+
+	if ~inlist("`name'", "Angola2006-07","BurkinaFaso2017-18") {
 		gen year = real(substr("`name'",-4,.))
 		tostring(year),replace
 	}
-	if inlist("`name'", "Angola2006-07") {
+	if inlist("`name'", "Angola2006-07","BurkinaFaso2017-18") {
 		gen year = real(substr("`name'",-7,4))
 		tostring(year),replace
 	}	
-
+  
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
-	replace country = "South Africa" if country == "SouthAfrica"
-	replace country = "Timor-Leste" if country == "Timor"
+	  replace country = "South Africa" if country == "SouthAfrica"
+	  replace country = "Timor-Leste" if country == "Timor"
     replace country = "BurkinaFaso" if country == "Burkina Faso"
 	
     merge m:1 country using `iso',force
