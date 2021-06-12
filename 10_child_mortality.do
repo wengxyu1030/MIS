@@ -14,14 +14,22 @@
 	clonevar mor_ali =  b5
 
 *mor_ade				Child age at death in months
-    ge mor_ade = b7
-	replace mor_ade = . if b13~=0
-	
-	ge age_alive_mnths = mnths_born_bef_int 
-	
-	ge time = mor_ade
-	replace time = age_alive_mnths if mor_ali==0
-	replace time = 0 if time<0
-	
 *mor_afl				Child age at death imputation flag
-    gen mor_afl = b13
+
+    if inlist(name,"Ghana2016","Ghana2019"){
+		gen mor_ade = .
+		gen mor_afl = .
+	}
+	if ~inlist(name,"Ghana2016","Ghana2019"){
+		ge mor_ade = b7
+	    replace mor_ade = . if b13~=0
+	    ge age_alive_mnths = mnths_born_bef_int 
+	    ge time = mor_ade
+	    replace time = age_alive_mnths if mor_ali==0
+	    replace time = 0 if time<0
+
+		gen mor_afl = b13
+
+	}
+
+
