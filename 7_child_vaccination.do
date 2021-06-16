@@ -3,13 +3,55 @@
 *** Child vaccination ********
 ******************************   
 
-*c_measles	child			Child received measles1/MMR1 vaccination	
+
+if inlist(name,"Liberia2016"){
+	    gen c_measles  = . 
+		replace c_measles = 1 if (h9 ==1 | h9 ==2 | h9 ==3)
+		replace c_measles = 0 if h9 == 0
+		 
+		gen c_dpt1  = .
+		replace c_dpt1  = 1 if (h3 ==1 | h3 ==2 | h3 ==3)  
+		replace c_dpt1  = 0 if h3 ==0
+
+		gen c_dpt2  = . 	
+		replace c_dpt2  = 1 if (h5 ==1 | h5 ==2 | h5 ==3)  
+		replace c_dpt2  = 0 if h5 ==0
+
+		gen c_dpt3  = . 	
+		replace c_dpt3  = 1 if (h7 ==1 | h7 ==2 | h7 ==3)  
+		replace c_dpt3  = 0 if h7 ==0
+
+		gen c_bcg  = . 	
+		replace c_bcg  = 1 if (h2 ==1 | h2 ==2 | h2 ==3)  
+		replace c_bcg  = 0 if h2 ==0
+
+		gen c_polio1  = .  
+		replace c_polio1  = 1 if (h4 ==1 | h4 ==2 | h4 ==3)  
+		replace c_polio1  = 0 if h4 ==0
+		
+		gen c_polio2  = .
+		replace c_polio2  = 1 if (h6 ==1 | h6 ==2 | h6 ==3)  
+		replace c_polio2  = 0 if h6 ==0  
+        
+		gen c_polio3  = .  
+		replace c_polio3  = 1 if (h8 ==1 | h8 ==2 | h8 ==3)  
+		replace c_polio3  = 0 if h8 ==0  
+
+		gen c_fullimm =.  										/*Note: polio0 is not part of allvacc- see DHS final report*/
+		replace c_fullimm =1 if (c_measles==1 & c_dpt1 ==1 & c_dpt2 ==1 & c_dpt3 ==1 & c_bcg ==1 & c_polio1 ==1 & c_polio2 ==1 & c_polio3 ==1)  
+		replace c_fullimm =0 if (c_measles==0 | c_dpt1 ==0 | c_dpt2 ==0 | c_dpt3 ==0 | c_bcg ==0 | c_polio1 ==0 | c_polio2 ==0 | c_polio3 ==0)  
+		replace c_fullimm =. if b5 ==0 
+
+	}
+
+	if ~inlist(name, "Liberia2016"){
+		*c_measles	child			Child received measles1/MMR1 vaccination	
 		gen c_measles  = . 
-/*		replace c_measles = 0 if h1 == 1
+/*		replace c_measles = 0 if h9 == 1
 		replace c_measles = 1 if (h9 ==1 | h9 ==2 | h9 ==3)
 		}	 */
-		
-*c_dpt1	child			Child received DPT1/Pentavalent 1 vaccination	
+
+		*c_dpt1	child			Child received DPT1/Pentavalent 1 vaccination	
         gen c_dpt1  = .
 /*		replace c_dpt1  = 1 if (h3 ==1 | h3 ==2 | h3 ==3)  
 		replace c_dpt1  = 0 if h3 ==0 
@@ -65,3 +107,6 @@
 		replace c_fullimm =0 if (c_measles==0 | c_dpt1 ==0 | c_dpt2 ==0 | c_dpt3 ==0 | c_bcg ==0 | c_polio1 ==0 | c_polio2 ==0 | c_polio3 ==0)  
 		replace c_fullimm =. if b5 ==0  
 
+
+	}
+		
