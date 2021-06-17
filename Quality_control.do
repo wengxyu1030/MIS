@@ -103,6 +103,7 @@ keep if _n == 1
 reshape long value_my,i(surveyid ispreferred)j(varname_my) string
 replace value_my = value_my*100 if varname_my != "w_bmi_1549"
 replace surveyid = "BU2012MIS" if surveyid == "BI2012MIS"
+replace surveyid = "LB2016MIS" if surveyid == "LR2016MIS"
 replace surveyid = "LB2011MIS" if surveyid == "LR2011MIS"
 replace surveyid = "LB2009MIS" if surveyid == "LR2009MIS"
 
