@@ -104,6 +104,7 @@ reshape long value_my,i(surveyid ispreferred)j(varname_my) string
 replace value_my = value_my*100 if varname_my != "w_bmi_1549"
 replace surveyid = "BU2012MIS" if surveyid == "BI2012MIS"
 replace surveyid = "LB2011MIS" if surveyid == "LR2011MIS"
+replace surveyid = "LB2009MIS" if surveyid == "LR2009MIS"
 
 merge 1:1 surveyid varname_my ispreferred using "${SOURCE}/external/DHS.dta"
 keep if _merge == 3  //for _merge == 1, missing data to generate the indicator.
