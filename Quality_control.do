@@ -106,7 +106,6 @@ replace surveyid = "BU2012MIS" if surveyid == "BI2012MIS"
 replace surveyid = "LB2016MIS" if surveyid == "LR2016MIS"
 replace surveyid = "LB2011MIS" if surveyid == "LR2011MIS"
 replace surveyid = "LB2009MIS" if surveyid == "LR2009MIS"
-replace surveyid = "MD2016MIS" if surveyid == "MG2016MIS"
 
 merge 1:1 surveyid varname_my ispreferred using "${SOURCE}/external/DHS.dta"
 keep if _merge == 3  //for _merge == 1, missing data to generate the indicator.
