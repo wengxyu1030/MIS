@@ -108,6 +108,7 @@ replace surveyid = "LB2011MIS" if surveyid == "LR2011MIS"
 replace surveyid = "LB2009MIS" if surveyid == "LR2009MIS"
 replace surveyid = "MD2011MIS" if surveyid == "MG2011MIS"
 replace surveyid = "MD2013MIS" if surveyid == "MG2013MIS"
+replace surveyid = "MD2016MIS" if surveyid == "MG2016MIS"
 
 
 merge 1:1 surveyid varname_my ispreferred using "${SOURCE}/external/DHS.dta"
