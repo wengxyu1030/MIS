@@ -36,6 +36,10 @@
 	
 	 
 	 *anc_skill: Categories as skilled: doctor, nurse, midwife, auxiliary nurse/midwife...
+	 
+	 if inlist(name, "Mozambique2018") {
+		label variable m2c "prenatal: midwife"  // relabel (from mid-wife to midwife)
+	}
 
 	foreach var of varlist m2a-m2m {
 
@@ -47,7 +51,7 @@
 
 	replace `var' = . if !inlist(`var',0,1)
 
-	 }
+	}
 	if inlist(name, "Uganda2018") {
 		replace m2d = .  // exclude "nursing aide/assistant"
 	}
