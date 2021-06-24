@@ -16,11 +16,11 @@
 *mor_ade				Child age at death in months
 *mor_afl				Child age at death imputation flag
 
-    if inlist(name,"Ghana2016","Ghana2019"){
+    if inlist(name,"Ghana2016","Ghana2019","Mozambique2018"){
 		gen mor_ade = .
 		gen mor_afl = .
 	}
-	if ~inlist(name,"Ghana2016","Ghana2019"){
+	if ~inlist(name,"Ghana2016","Ghana2019","Mozambique2018"){
 		ge mor_ade = b7
 	    replace mor_ade = . if b13~=0
 	    ge age_alive_mnths = mnths_born_bef_int 

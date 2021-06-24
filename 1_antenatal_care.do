@@ -36,6 +36,10 @@
 	
 	 
 	 *anc_skill: Categories as skilled: doctor, nurse, midwife, auxiliary nurse/midwife...
+	 
+	 if inlist(name, "Mozambique2018") {
+		label variable m2c "prenatal: midwife"  // relabel (from mid-wife to midwife)
+	}
 
 	foreach var of varlist m2a-m2m {
 
@@ -49,6 +53,7 @@
 
 	 }
 	if inlist(name, "Uganda2018","BurkinaFaso2017-18") {
+
 		replace m2d = .  // exclude "nursing aide/assistant"
 	}
 	/* do consider as skilled if contain words in the first group but don't contain any words in the second group */
