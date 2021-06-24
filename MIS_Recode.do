@@ -176,6 +176,7 @@ keep country iso2c iso3c
 replace country = "Tanzania"  if country == "Tanzania, United Republic of"
 replace country = "PapuaNewGuinea" if country == "Papua New Guinea"
 replace country = "SierraLeone"  if country == "Sierra Leone"
+replace country = "BurkinaFaso" if country == "Burkina Faso"
 
 save `iso'
 
@@ -211,7 +212,7 @@ use `hm',clear
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
 	  replace country = "South Africa" if country == "SouthAfrica"
 	  replace country = "Timor-Leste" if country == "Timor"
-    replace country = "BurkinaFaso" if country == "Burkina Faso"
+    
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
