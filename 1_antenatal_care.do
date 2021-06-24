@@ -48,7 +48,7 @@
 	replace `var' = . if !inlist(`var',0,1)
 
 	 }
-	if inlist(name, "Uganda2018") {
+	if inlist(name, "Uganda2018","BurkinaFaso2017-18") {
 		replace m2d = .  // exclude "nursing aide/assistant"
 	}
 	/* do consider as skilled if contain words in the first group but don't contain any words in the second group */
