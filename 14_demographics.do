@@ -14,10 +14,10 @@
 	replace hm_age_yrs = . if inlist(hv105,98,99)
 	
 *hm_age_mon	Age in months (children only)
-    if inlist(name, "Rwanda2013") {
+    if inlist(name, "Rwanda2013","Rwanda2017") {
 		gen hm_age_mon = . 
 	}
-    if ~inlist(name, "Rwanda2013") {
+    if ~inlist(name, "Rwanda2013","Rwanda2017") {
 		clonevar hm_age_mon = hc1 
 	}
 
@@ -28,10 +28,10 @@
     gen hm_stay = hv103 if hv103!=9 //vary by survey
 
 *hm_dob	date of birth (cmc)
-    if inlist(name, "Rwanda2013") {
+    if inlist(name, "Rwanda2013","Rwanda2017") {
 		gen hm_dob = . 
 	}
-    if ~inlist(name, "Rwanda2013") {
+    if ~inlist(name, "Rwanda2013","Rwanda2017") {
 		clonevar hm_dob = hc32  
 	}
 	
