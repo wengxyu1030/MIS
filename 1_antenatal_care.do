@@ -56,6 +56,10 @@
 
 		replace m2d = .  // exclude "nursing aide/assistant"
 	}
+	if inlist(name, "Senegal2006","Senegal2008-09") {
+		replace m2g = .  // exclude "trad.birth attendant"
+		replace m2f = . // exclude "trained birth att."
+	}
 	/* do consider as skilled if contain words in the first group but don't contain any words in the second group */
     egen anc_skill = rowtotal(m2a-m2m),mi
 
