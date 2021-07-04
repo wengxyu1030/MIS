@@ -62,6 +62,11 @@
 		replace m2g = .  // exclude "trad.birth attendant"
 		replace m2f = . // exclude "trained birth att."
 	}
+	
+	if inlist(name, "Togo2017") {
+		replace m2d = .  // exclude "auxiliary midwife"
+		replace m2e = .  // exclude "matron"
+	}
 
 	if inlist(name, "Uganda2009") {
 		replace m2g = .  // exclude "trad.birth attendant"
