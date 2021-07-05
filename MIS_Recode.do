@@ -200,11 +200,11 @@ use `hm',clear
 
     gen survey = "MIS-`name'"
 
-	if ~inlist("`name'", "Angola2006-07","BurkinaFaso2017-18","Senegal2008-09","Uganda2014-15") {
+	if ~inlist("`name'", "Angola2006-07","BurkinaFaso2017-18","Senegal2008-09","Uganda2014-15","Uganda2018-19") {
 		gen year = real(substr("`name'",-4,.))
 		tostring(year),replace
 	}
-	if inlist("`name'", "Angola2006-07","BurkinaFaso2017-18","Senegal2008-09","Uganda2014-15") {
+	if inlist("`name'", "Angola2006-07","BurkinaFaso2017-18","Senegal2008-09","Uganda2014-15","Uganda2018-19") {
 		gen year = real(substr("`name'",-7,4))
 		tostring(year),replace
 	}	
