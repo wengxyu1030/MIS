@@ -17,25 +17,28 @@ macro drop _all
 ******************************
 
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
+	if "`c(username)'" == "robinwang"     local pc = 4
 
 //global root "C:\Users\wb500886\WBG\Sven Neelsen - World Bank\MEASURE UHC DATA"
 global root "/Users/xianzhang/Dropbox/DHS"
+	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
 
 * Define path for data sources
-global SOURCE "/Volumes/alan/DHS/RAW DATA/MIS"
+    global SOURCE "${root}/RAW DATA"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
-
+	
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
 global DO "${root}/STATA/DO/SC/DHS/MIS-recode-template"
+	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/MIS"
 
 * Define the country names (in globals) in by Recode
-    
-do "${DO}/0_GLOBAL.do"
+*do "${DO}/0_GLOBAL.do"
+
 	
 foreach name in $MIScountries {	
 clear
@@ -71,7 +74,7 @@ save `birthind',replace
 
     gen hm_age_mon = (v008 - b3)           //hm_age_mon Age in months (children only)
     gen name = "`name'"
-	
+
     do "${DO}/1_antenatal_care"
     do "${DO}/2_delivery_care"
     do "${DO}/3_postnatal_care"
@@ -134,7 +137,7 @@ gen name = "`name'"
 	do "${DO}/13_adult"
     do "${DO}/14_demographics"
 	
-keep hv001 hv002 hvidx hc70 hc71 ///
+keep hv001 hv002 hvidx hc70 hc71 hc72 ///
 c_* ant_* a_* hm_* ln
 save `hm'
 
@@ -247,7 +250,7 @@ use `hm',clear
 	}
 
 	***for variables generated from 7_child_vaccination
-	foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
+	foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles c_vaczero ///
 	c_polio1 c_polio2 c_polio3{
     replace `var' = . if !inrange(hm_age_mon,15,23)
     }
@@ -260,7 +263,7 @@ use `hm',clear
     }
 	
 	***for variables generated from 9_child_anthropometrics
-	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
+	foreach var of var c_underweight c_underweight_sev c_stunted c_stunted_sev c_wasted c_wasted_sev c_stu_was c_stu_was_sev hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 	
@@ -273,6 +276,11 @@ use `hm',clear
     foreach var of var a_diab_treat  a_inpatient_1y a_bp_treat a_bp_sys a_bp_dial a_hi_bp140_or_on_med a_bp_meas{
 	replace `var'=. if hm_age_yrs<18
 	}
+	
+	rename hc71 c_wfa
+	rename hc70 c_hfa
+	rename hc72 c_wfh
+	
 *** Label variables
     drop bidx surveyid
     do "${DO}/Label_var"

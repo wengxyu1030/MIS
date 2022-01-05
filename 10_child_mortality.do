@@ -31,5 +31,15 @@
 		gen mor_afl = b13
 
 	}
+	
+*hm_birthorder: birth order
+gen hm_birthorder = bord
+
+*c_magebrt: Mother's age at birth [DW - NOV2021]
+gen c_magebrt = v012 - round(hm_age_mon/12)
+
+
+
+
 
 
