@@ -18,24 +18,34 @@ macro drop _all
 
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
+	if "`c(username)'" == "wb592665" 	local pc = 5
+
 //global root "C:\Users\wb500886\WBG\Sven Neelsen - World Bank\MEASURE UHC DATA"
 global root "/Users/xianzhang/Dropbox/DHS"
+	if `pc' == 5 global root "C:\Users\wb592665.WB\OneDrive - WBG\Documents\MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "/Volumes/alan/DHS/RAW DATA/MIS"
+  if `pc' == 5 global SOURCE "${root}/RAW DATA/MIS"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
+	if `pc' == 5 global OUT "${root}/STATA/DATA/SC/FINAL"
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
+	if `pc' == 5 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
 global DO "${root}/STATA/DO/SC/DHS/MIS-recode-template"
+	if `pc' == 5 global DO "C:\Users\wb592665.WB\OneDrive - WBG\Documents\MEASURE UHC DATA\MIS"
 
 * Define the country names (in globals) in by Recode
     
 do "${DO}/0_GLOBAL.do"
+
+global MIScountries "Guinea2021 Kenya2020 Senegal2020"
+
 	
 foreach name in $MIScountries {	
 clear
